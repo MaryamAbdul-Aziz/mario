@@ -1,27 +1,18 @@
 export class GameEnv {
-    // game managed object
-    static currentLevel = null;
-    static player = null;
-    static levels = [];
+    // Prototype static variables
     static gameObjects = [];
 
-    // game attributes
-    static gameSpeed = 2;
-    static gravity = 3;
     static innerWidth;
     static prevInnerWidth;
     static innerHeight;
     static top;
     static bottom;
-    static prevBottom
-    static floor;
-    static prevFloor;
-    // calculated size properties
-    static backgroundHeight = 0;
-    static platformHeight = 0;
+    static prevBottom;
+    static gameSpeed;
+    static gravity;
 
-    // canvas filter property
     static isInverted = true;
+    static defaultFilter = getComputedStyle(document.documentElement).getPropertyValue('--default-canvas-filter');
 
     // Make the constructor private to prevent instantiation
     constructor() {
@@ -30,7 +21,7 @@ export class GameEnv {
 
     static update() {
         // Update game state, including all game objects
-        for (const gameObject of GameEnv.gameObjects) {
+        for (const gameObject of this.gameObjects) {
             gameObject.update();
             gameObject.draw();
         }
@@ -47,11 +38,13 @@ export class GameEnv {
 
     // Setter for Bottom position
     static setBottom() {
-        // sets the bottom or gravity 0
-        this.bottom =
-        this.top + this.backgroundHeight;
+        // set bottom of game as background height
+        const background = document.querySelector('#background');
+        if (background) {
+            this.bottom = background.offsetHeight;
+        }
     }
-
+    
     // Setup for Game Environment 
     static initialize() {
         // store previous for ratio calculatins on resize
@@ -63,7 +56,7 @@ export class GameEnv {
         this.innerHeight = window.innerHeight;
 
         this.setTop();
-        //this.setBottom(); // must be called in platformer objects
+        // this.setBottom() is ignored for now as resize of background object determinse bottom
     }
 
     // Resize for Game Objects
@@ -71,38 +64,28 @@ export class GameEnv {
         GameEnv.initialize();  // Update GameEnv dimensions
 
         // Call the sizing method on all game objects
-        for (var gameObject of GameEnv.gameObjects){
-            gameObject.size();
+        for (var gameObj of GameEnv.gameObjects){
+            gameObj.size();
         }
     }
 
     static update() {
         // Update game state, including all game objects
-        for (const gameObject of GameEnv.gameObjects) {
+        for (const gameObject of this.gameObjects) {
             gameObject.update();
-            gameObject.serialize();
             gameObject.draw();
-        }
-    }
-
-    // Destroy all existing game objects
-    static destroy() {
-        // Destroy objects in reverse order
-        for (var i = GameEnv.gameObjects.length - 1; i >= 0; i--) {
-            const gameObject = GameEnv.gameObjects[i];
-            gameObject.destroy();
         }
     }
 
     // Toggle "canvas filter property" between alien and normal
     static toggleInvert() {
-        for (var gameObject of GameEnv.gameObjects){
-            if (gameObject.invert && this.isInverted) {  // toggle off
-                gameObject.canvas.style.filter = "none";  // remove filter
-            } else if (gameObject.invert) { // toggle on
-                gameObject.canvas.style.filter = "invert(100%)";  // remove filter
+        for (var gameObj of GameEnv.gameObjects){
+            if (gameObj.invert && this.isInverted) {  // toggle off
+                gameObj.canvas.style.filter = "none";  // remove filter
+            } else if (gameObj.invert) { // toggle on
+                gameObj.canvas.style.filter = this.defaultFilter;  // remove filter
             } else {
-                gameObject.canvas.style.filter = "none";  // remove filter
+                gameObj.canvas.style.filter = "none";  // remove filter
             }
         }
         this.isInverted = !this.isInverted;  // switch boolean value
