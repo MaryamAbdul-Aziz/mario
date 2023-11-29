@@ -9,8 +9,8 @@ class GameObject {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.image = image;
-        this.width = image.width;  // from Image() width
-        this.height = image.height; // from Image() height
+        this.width = image.width;  // Image() width (meta data)
+        this.height = image.height; // Image() height
         this.collisionWidth = 0;
         this.collisionHeight = 0;
         this.aspect_ratio = this.width / this.height;
@@ -18,43 +18,9 @@ class GameObject {
         this.speed = GameEnv.gameSpeed * this.speedRatio;
         this.invert = true;
         this.collisionData = {};
-        this.jsonifiedElement = '';
         // Add this object to the game object array so collision can be detected
         // among other things
         GameEnv.gameObjects.push(this); 
-    }
-
-    // extract change from Game Objects into JSON
-    serialize() {
-        this.logElement();
-    }
-
-    // log Character element change
-    logElement() {
-        var jsonifiedElement = this.stringifyElement();
-        if (jsonifiedElement !== this.jsonifiedElement) {
-            console.log(jsonifiedElement);
-            this.jsonifiedElement = jsonifiedElement;
-        }
-    }
-
-    // strigify Character key data
-    stringifyElement() {
-        var element = this.canvas;
-        if (element && element.id) {
-            // Convert the relevant properties of the element to a string for comparison
-            return JSON.stringify({
-                id: element.id,
-                width: element.width,
-                height: element.height,
-                style: element.style.cssText,
-                position: {
-                    left: element.style.left,
-                    top: element.style.top
-                },
-                filter: element.style.filter
-            });
-        }
     }
 
     // X position getter and setter
@@ -88,7 +54,6 @@ class GameObject {
         }
     }
 
-    
     /* Default collision action is no action
      * override when you extend for custom action
     */
@@ -124,58 +89,33 @@ class GameObject {
     /* Collision detection method
      * usage: if (player.isCollision(platform)) { // action }
     */
-    isCollision(other) {
-        // Bounding rectangles from Canvas
-        const thisRect = this.canvas.getBoundingClientRect();
-        const otherRect = other.canvas.getBoundingClientRect();
-    
-        // Calculate center points of rectangles
-        const thisCenterX = (thisRect.left + thisRect.right) / 2;
-        const thisCenterY = (thisRect.top + thisRect.bottom) / 2;
-        const otherCenterX = (otherRect.left + otherRect.right) / 2;
-        const otherCenterY = (otherRect.top + otherRect.bottom) / 2;
-    
-        // Calculate hitbox constants
-        const percentage = 0.5; 
-        const widthReduction = thisRect.width * percentage;
-        const heightReduction = thisRect.height * percentage;
-    
-        // Build hitbox by subtracting reductions from the left, right, top, and bottom
-        const thisLeft = thisRect.left + widthReduction;
-        const thisTop = thisRect.top + heightReduction;
-        const thisRight = thisRect.right - widthReduction;
-        const thisBottom = thisRect.bottom - heightReduction;
-    
-        // Determine hit and touch points of hit
+    isCollision(otherGameObject) {
+
         this.collisionData = {
-            hit: (
-                thisLeft < otherRect.right &&
-                thisRight > otherRect.left &&
-                thisTop < otherRect.bottom &&
-                thisBottom > otherRect.top
-            ),
+            hit: (this.x + this.collisionWidth > otherGameObject.x &&
+            this.x < otherGameObject.x + otherGameObject.collisionWidth &&
+            this.y + this.collisionHeight > otherGameObject.y &&
+            this.y < otherGameObject.y + otherGameObject.collisionHeight),
             atFloor: (GameEnv.bottom <= this.y), // Check if the object's bottom edge is at or below the floor level
             touchPoints: {
                 this: {
-                    top: thisCenterY < otherCenterY,
-                    bottom: thisCenterY > otherCenterY,
-                    left: thisCenterX > otherCenterX,
-                    right: thisCenterX < otherCenterX,
+                    object: this,
+                    top: (this.y > otherGameObject.y), 
+                    bottom: (this.y < otherGameObject.setY), 
+                    left: (this.x > otherGameObject.x), 
+                    right: (this.x < otherGameObject.x) 
                 },
                 other: {
-                    id: other.canvas.id,
-                    top: thisCenterY > otherCenterY,
-                    bottom: thisCenterY < otherCenterY,
-                    left: thisCenterX < otherCenterX,
-                    right: thisCenterX > otherCenterX,
-                    ontop: Math.abs(thisBottom - otherRect.top) <= GameEnv.gravity,
-                    x: otherRect.left
-                },
-            },
+                    object: otherGameObject,
+                    top: (this.y < otherGameObject.y), 
+                    bottom: (this.y > otherGameObject.y), 
+                    left: (this.x < otherGameObject.x), 
+                    right: (this.x > otherGameObject.x) 
+                }
+            } 
+            
         };
-
     }
-    
 }
 
 export default GameObject;
