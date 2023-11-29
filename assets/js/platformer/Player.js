@@ -76,17 +76,6 @@ export class Player extends Character{
 
     // Player perform a unique update
     update() {
-<<<<<<< HEAD
-        if (this.isAnimation("a")) {
-            if (this.movement.left) this.x -= 2 * this.speed;  // Move to left
-        }
-        if (this.isAnimation("d")) {
-            if (this.movement.right) this.x += 2 * this.speed;  // Move to right
-        }
-        if (this.isGravityAnimation("w")) {
-            if (this.movement.down) this.y -= (this.bottom * .33);
-              // jump 33% higher than bottom
-=======
         if (this.isAnimation(PlayerAnimation.a)) {
             this.x -= this.speed;  // Move to left
         }
@@ -95,7 +84,6 @@ export class Player extends Character{
         }
         if (this.isGravityAnimation(PlayerAnimation.w)) {
             this.y -= (GameEnv.bottom * .33);  // jump 33% higher than floor
->>>>>>> f569520824b2856c6f86aefb556681fe6e028383
         } 
 
         // Perform super update actions
