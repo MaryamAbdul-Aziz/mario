@@ -102,13 +102,14 @@ export class Player extends Character{
     // Player updates
     update() {
         if (this.isAnimation("a")) {
-            if (this.movement.left) this.x -= this.speed;  // Move to left
+            if (this.movement.left) this.x -= 2 * this.speed;  // Move to left
         }
         if (this.isAnimation("d")) {
-            if (this.movement.right) this.x += this.speed;  // Move to right
+            if (this.movement.right) this.x += 2 * this.speed;  // Move to right
         }
         if (this.isGravityAnimation("w")) {
-            if (this.movement.down) this.y -= (this.bottom * .33);  // jump 33% higher than bottom
+            if (this.movement.down) this.y -= (this.bottom * .33);
+              // jump 33% higher than bottom
         } 
 
         // Perform super update actions

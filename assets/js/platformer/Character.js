@@ -95,8 +95,7 @@ class Character extends GameObject {
         // calculate Proportional x and y positions based on size of screen dimensions
         if (GameEnv.prevInnerWidth) {
             const proportionalX = (this.x / GameEnv.prevInnerWidth) * GameEnv.innerWidth;
-
-            // Update the x and y positions based on the proportions
+       
             this.setX(proportionalX);
             this.setY(this.bottom);
         } else {
