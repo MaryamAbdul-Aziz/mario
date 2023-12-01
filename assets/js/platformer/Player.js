@@ -87,7 +87,7 @@ export class Player extends Character{
         if (result) {
             // Adjust horizontal position during the jump
             const horizontalJumpFactor = 0.1; // Adjust this factor as needed
-            this.x += this.speed * horizontalJumpFactor;  
+            this.x += this.speed * horizontalJumpFactor; 
         }
     
         // return to directional animation (direction?)
@@ -103,13 +103,22 @@ export class Player extends Character{
     update() {
         if (this.isAnimation("a")) {
             if (this.movement.left) this.x -= this.speed;  // Move to left
+            this.facingLeft = true;
         }
         if (this.isAnimation("d")) {
             if (this.movement.right) this.x += this.speed;  // Move to right
+            this.facingLeft = false;
         }
         if (this.isGravityAnimation("w")) {
             if (this.movement.down) this.y -= (this.bottom * .33);  // jump 33% higher than bottom
-        } 
+        }
+        // Running feature that causes player speed to increase
+        if (this.isAnimation("s")) {
+            if (this.movement) {
+                const moveSpeed = 5;
+                this.x += this.facingLeft ? -moveSpeed : moveSpeed;
+            }
+        }
 
         // Perform super update actions
         super.update();
