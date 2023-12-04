@@ -110,10 +110,6 @@ export class Player extends Character{
             this.facingLeft = false;
         }
         if (this.isGravityAnimation("w")) {
-<<<<<<< HEAD
-            if (this.movement.down) this.y -= this.bottom * .5;   // jump 33% higher than bottom
-        } 
-=======
             if (this.movement.down) this.y -= (this.bottom * .33);  // jump 33% higher than bottom
         }
         // Running feature that causes player speed to increase
@@ -123,7 +119,6 @@ export class Player extends Character{
                 this.x += this.facingLeft ? -moveSpeed : moveSpeed;
             }
         }
->>>>>>> ab75eba40abf85bc35fe7420954602b54944d8c8
 
         // Perform super update actions
         super.update();
