@@ -1,5 +1,7 @@
 import GameEnv from './GameEnv.js';
 import Character from './Character.js';
+import GameObject from './GameObject.js';
+import Platform from './Platform.js';
 
 export class Player extends Character{
     // constructors sets up Character object 
@@ -109,8 +111,8 @@ export class Player extends Character{
             if (this.movement.right) this.x += this.speed;  // Move to right
             this.facingLeft = false;
         }
-        if (this.isGravityAnimation("w")) {
-            if (this.movement.down) this.y -= (this.bottom * .33);  // jump 33% higher than bottom
+        if (this.isGravityAnimation("w")) { 
+            if (this.position.y >= GameEnv.platformHeight) this.velocity.y += 3;  // jump 33% higher than bottom
         }
         // Running feature that causes player speed to increase
         if (this.isAnimation("s")) {
