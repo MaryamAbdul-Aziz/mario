@@ -20,14 +20,15 @@ export class Player extends Character{
         this.movement = {left: true, right: true, down: true};
         this.isIdle = true;
         this.stashKey = "d"; // initial key
+        this.cooldownActive = false;
 
         // Store a reference to the event listener function
         this.keydownListener = this.handleKeyDown.bind(this);
         this.keyupListener = this.handleKeyUp.bind(this);
 
         // Add event listeners
-        document.addEventListener('keydown', this.keydownListener);
-        document.addEventListener('keyup', this.keyupListener);
+            document.addEventListener('keydown', this.handleKeyDown.bind(this));
+            document.addEventListener('keyup', this.handleKeyUp.bind(this));
 
         GameEnv.player = this;
     }
@@ -99,7 +100,53 @@ export class Player extends Character{
     
         return result;
     }
+/*
+    handleKeyPress(event) {
+        if (event.key === 's' && !this.cooldownActive) {
+            // Allow pressing "s" for 1000ms
+            this.cooldownActive = true;
     
+            setTimeout(() => {
+                // After 1000ms, prevent pressing "s" for 2000ms
+                this.cooldownActive = false;
+    
+                setTimeout(() => {
+                    // After 2000ms, reset all counters/cooldowns
+                    this.cooldownActive = false;
+                }, 2000);
+            }, 1000);
+        }
+    }
+*/
+
+handleKeyPress = (event) => {
+    if (event.key === 's' && !this.cooldownActive) {
+        this.sCooldown();
+    }
+}
+
+sCooldown = () => {
+    // Allow pressing "s" for 1000ms
+    this.cooldownActive = true;
+
+    setTimeout(() => {
+        // After 1000ms, prevent pressing "s" for 2000ms
+        this.cooldownActive = false;
+
+        setTimeout(() => {
+            // After 2000ms, reset all counters/cooldowns
+            this.cooldownActive = false;
+        }, 2000);
+    }, 1000);
+}
+
+dashFunction = () => {
+    if (this.movement && !this.cooldownActive) {  // Check if movement is allowed and cooldown is not active
+        const moveSpeed = 2;
+        this.x += this.facingLeft ? -moveSpeed : moveSpeed;
+    }
+}
+
 
     // Player updates
     update() {
@@ -115,20 +162,19 @@ export class Player extends Character{
             if (this.movement.down) this.y = .1;  // jump 33% higher than bottom
         }
         // Running feature that causes player speed to increase
-        if (this.isAnimation("s")) {
-            if (this.movement) {
-                const moveSpeed = 5;
-                this.x += this.facingLeft ? -moveSpeed : moveSpeed;
-            }
+        
+        if (this.isAnimation("s") && !this.cooldownActive) {
+            this.dashFunction();
         }
         //Need Help Making This Work
         if (this.pressedKeys("q")) {
             GameEnv.gameSpeed -= 1;
             }
         //
-
+        
         // Perform super update actions
         super.update();
+
     }
 
     // Player action on collisions
