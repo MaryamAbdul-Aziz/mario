@@ -3,10 +3,9 @@ import GameEnv from './GameEnv.js';
 class GameObject {
     // container for all game objects in game
     constructor(canvas, image, speedRatio) {
+        //var velocity = 0; 
         this.x = 0;
         this.y = 0;
-        // test added velocity below
-        this.velocity.y= 0;
         this.frame = 0;
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
@@ -76,7 +75,7 @@ class GameObject {
     setY(y) {
         this.y = y;
     }
-
+    
     /* Destroy Game Object
     * remove canvas element of object
     * remove object from GameObject array
