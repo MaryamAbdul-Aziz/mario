@@ -1,5 +1,7 @@
 import GameEnv from './GameEnv.js';
 import Character from './Character.js';
+import GameObject from './GameObject.js';
+import Platform from './Platform.js';
 
 export class Player extends Character{
     // constructors sets up Character object 
@@ -156,14 +158,19 @@ dashFunction = () => {
             if (this.movement.right) this.x += this.speed;  // Move to right
             this.facingLeft = false;
         }
-        if (this.isGravityAnimation("w")) {
-            if (this.movement.down) this.y -= (this.bottom * .33);  // jump 33% higher than bottom
+        if (this.isGravityAnimation("w")) { 
+            if (this.movement.down) this.y = .1;  // jump 33% higher than bottom
         }
         // Running feature that causes player speed to increase
         
         if (this.isAnimation("s") && !this.cooldownActive) {
             this.dashFunction();
         }
+        //Need Help Making This Work
+        if (this.pressedKeys("q")) {
+            GameEnv.gameSpeed -= 1;
+            }
+        //
         
         // Perform super update actions
         super.update();

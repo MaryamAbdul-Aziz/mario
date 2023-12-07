@@ -4,3 +4,6 @@ _posts/*_IPYNB_2_.md
 nohup.out
 Gemfile.lock
 assets/js/platformer/Player.js
+assets/js/platformer/Player.js
+.gitignore
+assets/js/platformer/GameObject.js
