@@ -112,7 +112,7 @@ export class Player extends Character{
             this.facingLeft = false;
         }
         if (this.isGravityAnimation("w")) { 
-            if (this.position.y >= GameEnv.platformHeight) this.velocity.y += 3;  // jump 33% higher than bottom
+            if (this.movement.down) this.y = .1;  // jump 33% higher than bottom
         }
         // Running feature that causes player speed to increase
         if (this.isAnimation("s")) {
@@ -121,6 +121,11 @@ export class Player extends Character{
                 this.x += this.facingLeft ? -moveSpeed : moveSpeed;
             }
         }
+        //Need Help Making This Work
+        if (this.pressedKeys("q")) {
+            GameEnv.gameSpeed -= 1;
+            }
+        //
 
         // Perform super update actions
         super.update();

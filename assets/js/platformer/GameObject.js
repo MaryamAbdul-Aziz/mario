@@ -4,11 +4,8 @@ class GameObject {
     // container for all game objects in game
     constructor(canvas, image, speedRatio) {
         //var velocity = 0; 
-        this.position.x = 0;
-        this.position.y = 0;
-        this.velocity.x = 0;
-        this.velocity.y = 0;
-        //var gravity = -2;
+        this.x = 0;
+        this.y = 0;
         this.frame = 0;
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
