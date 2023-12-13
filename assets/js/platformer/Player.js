@@ -1,7 +1,5 @@
 import GameEnv from './GameEnv.js';
 import Character from './Character.js';
-import GameObject from './GameObject.js';
-import Platform from './Platform.js';
 
 export class Player extends Character{
     // constructors sets up Character object 
@@ -20,15 +18,14 @@ export class Player extends Character{
         this.movement = {left: true, right: true, down: true};
         this.isIdle = true;
         this.stashKey = "d"; // initial key
-        this.cooldownActive = false;
 
         // Store a reference to the event listener function
         this.keydownListener = this.handleKeyDown.bind(this);
         this.keyupListener = this.handleKeyUp.bind(this);
 
         // Add event listeners
-            document.addEventListener('keydown', this.handleKeyDown.bind(this));
-            document.addEventListener('keyup', this.handleKeyUp.bind(this));
+        document.addEventListener('keydown', this.keydownListener);
+        document.addEventListener('keyup', this.keyupListener);
 
         GameEnv.player = this;
     }
@@ -90,7 +87,7 @@ export class Player extends Character{
         if (result) {
             // Adjust horizontal position during the jump
             const horizontalJumpFactor = 0.1; // Adjust this factor as needed
-            this.x += this.speed * horizontalJumpFactor; 
+            this.x += this.speed * horizontalJumpFactor;  
         }
     
         // return to directional animation (direction?)
@@ -100,25 +97,7 @@ export class Player extends Character{
     
         return result;
     }
-/*
-    handleKeyPress(event) {
-        if (event.key === 's' && !this.cooldownActive) {
-            // Allow pressing "s" for 1000ms
-            this.cooldownActive = true;
-    
-            setTimeout(() => {
-                // After 1000ms, prevent pressing "s" for 2000ms
-                this.cooldownActive = false;
-    
-                setTimeout(() => {
-                    // After 2000ms, reset all counters/cooldowns
-                    this.cooldownActive = false;
-                }, 2000);
-            }, 1000);
-        }
-    }
-*/
-
+    /*
 handleKeyPress = (event) => {
     if (event.key === 's' && !this.cooldownActive) {
         this.sCooldown();
@@ -160,13 +139,16 @@ timeFunction = () => {
             if (this.movement.right) this.x += this.speed;  // Move to right
             this.facingLeft = false;
         }
-        if (this.isGravityAnimation("w")) { 
-            if (this.movement.down) this.y = .33 * innerHeight;  // jump 33% higher than bottom
-        }
-        // Running feature that causes player speed to increase
-        
+        if (this.isGravityAnimation("w")) {
+            if (this.movement.down) this.y -= (this.bottom * .33);  // jump 33% higher than bottom
+        } 
         if (this.isAnimation("s") && !this.cooldownActive) {
-            this.dashFunction();
+            //this.dashFunction();
+            if (this.movement && !this.cooldownActive) {  // Check if movement is allowed and cooldown is not active
+                const moveSpeed = 2;
+                this.x += this.facingLeft ? -moveSpeed : moveSpeed;
+                this.canvas.style.filter = 'invert(1)';
+            }
         }
         //Need Help Making This Work
         if (this.isAnimation("q")) {
@@ -175,7 +157,6 @@ timeFunction = () => {
         
         // Perform super update actions
         super.update();
-
     }
 
     // Player action on collisions
