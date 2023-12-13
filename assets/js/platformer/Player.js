@@ -132,9 +132,11 @@ dashFunction = () => {
     update() {
         if (this.isAnimation("a")) {
             if (this.movement.left) this.x -= this.speed;  // Move to left
+            this.facingLeft = true;
         }
         if (this.isAnimation("d")) {
             if (this.movement.right) this.x += this.speed;  // Move to right
+            this.facingLeft = false;
         }
         if (this.isGravityAnimation("w")) {
             if (this.movement.down) this.y -= (this.bottom * .33);  // jump 33% higher than bottom
@@ -144,6 +146,7 @@ dashFunction = () => {
             if (this.movement && !this.cooldownActive) {  // Check if movement is allowed and cooldown is not active
                 const moveSpeed = 2;
                 this.x += this.facingLeft ? -moveSpeed : moveSpeed;
+                this.canvas.style.filter = 'invert(1)';
             }
         }
         //Need Help Making This Work
