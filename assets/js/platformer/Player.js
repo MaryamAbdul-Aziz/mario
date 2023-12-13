@@ -146,7 +146,9 @@ dashFunction = () => {
         this.x += this.facingLeft ? -moveSpeed : moveSpeed;
     }
 }
-
+timeFunction = () => {
+    GameObject.speed -= 2;
+}
 
     // Player updates
     update() {
@@ -159,7 +161,7 @@ dashFunction = () => {
             this.facingLeft = false;
         }
         if (this.isGravityAnimation("w")) { 
-            if (this.movement.down) this.y = .1;  // jump 33% higher than bottom
+            if (this.movement.down) this.y = .33 * innerHeight;  // jump 33% higher than bottom
         }
         // Running feature that causes player speed to increase
         
@@ -167,10 +169,9 @@ dashFunction = () => {
             this.dashFunction();
         }
         //Need Help Making This Work
-        if (this.pressedKeys("q")) {
-            GameEnv.gameSpeed -= 1;
+        if (this.isAnimation("q")) {
+            this.timeFunction();
             }
-        //
         
         // Perform super update actions
         super.update();
