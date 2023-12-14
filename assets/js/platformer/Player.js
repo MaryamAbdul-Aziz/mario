@@ -141,9 +141,9 @@ dashFunction = () => {
         if (this.isGravityAnimation("w")) {
             if (this.movement.down) this.y -= (this.bottom * .33);  // jump 33% higher than bottom
         } 
-        if (this.isAnimation("s") && !this.cooldownActive) {
+        if (this.isAnimation("s")/* && !this.cooldownActive*/) {
             //this.dashFunction();
-            if (this.movement && !this.cooldownActive) {  // Check if movement is allowed and cooldown is not active
+            if (this.movement/* && !this.cooldownActive*/) {  // Check if movement is allowed and cooldown is not active
                 const moveSpeed = 2;
                 this.x += this.facingLeft ? -moveSpeed : moveSpeed;
                 this.canvas.style.filter = 'invert(1)';
