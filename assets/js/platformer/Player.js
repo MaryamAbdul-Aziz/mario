@@ -128,6 +128,7 @@ dashFunction = () => {
 timeFunction = () => {
     GameObject.speed -= 2;
 }
+*/
 
     // Player updates
     update() {
