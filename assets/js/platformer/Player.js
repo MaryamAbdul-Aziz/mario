@@ -125,8 +125,9 @@ dashFunction = () => {
         this.x += this.facingLeft ? -moveSpeed : moveSpeed;
     }
 }
-*/
-
+timeFunction = () => {
+    GameObject.speed -= 2;
+}
 
     // Player updates
     update() {
@@ -150,12 +151,10 @@ dashFunction = () => {
             }
         }
         //Need Help Making This Work
-        /*
-        if (this.pressedKeys("q")) {
-            GameEnv.gameSpeed -= 1;
+        if (this.isAnimation("q")) {
+            this.timeFunction();
             }
-        */
-
+        
         // Perform super update actions
         super.update();
     }
