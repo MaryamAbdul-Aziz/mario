@@ -1,5 +1,6 @@
 import GameEnv from './GameEnv.js';
 import Character from './Character.js';
+import GameObject from './GameObject.js';
 
 export class Player extends Character{
     // constructors sets up Character object 
@@ -97,7 +98,7 @@ export class Player extends Character{
     
         return result;
     }
-    /*
+        
 handleKeyPress = (event) => {
     if (event.key === 's' && !this.cooldownActive) {
         this.sCooldown();
@@ -125,9 +126,6 @@ dashFunction = () => {
         this.x += this.facingLeft ? -moveSpeed : moveSpeed;
     }
 }
-timeFunction = () => {
-    GameObject.speed -= 2;
-}
 
     // Player updates
     update() {
@@ -146,14 +144,14 @@ timeFunction = () => {
             //this.dashFunction();
             if (this.movement && !this.cooldownActive) {  // Check if movement is allowed and cooldown is not active
                 const moveSpeed = 2;
-                this.x += this.facingLeft ? -moveSpeed : moveSpeed;
+                this.x += this.facingLeft ? -moveSpeed: moveSpeed;
                 this.canvas.style.filter = 'invert(1)';
             }
         }
         //Need Help Making This Work
-        if (this.isAnimation("q")) {
-            this.timeFunction();
-            }
+        if (this.isAnimation("e")) {
+            this.speedRatio -= 1;
+        }
         
         // Perform super update actions
         super.update();
