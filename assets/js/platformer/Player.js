@@ -41,6 +41,7 @@ export class Player extends Character{
         } else if (key === "d") {
             this.stashKey = key;
             this.playerData.w = this.playerData.wd;
+
         }
         // set frame and idle frame
         this.setFrameY(animation.row);
@@ -98,34 +99,10 @@ export class Player extends Character{
     
         return result;
     }
-        
-handleKeyPress = (event) => {
-    if (event.key === 's' && !this.cooldownActive) {
-        this.sCooldown();
-    }
-}
 
-sCooldown = () => {
-    // Allow pressing "s" for 1000ms
-    this.cooldownActive = true;
-
-    setTimeout(() => {
-        // After 1000ms, prevent pressing "s" for 2000ms
-        this.cooldownActive = false;
-
-        setTimeout(() => {
-            // After 2000ms, reset all counters/cooldowns
-            this.cooldownActive = false;
-        }, 2000);
-    }, 1000);
-}
-
-dashFunction = () => {
-    if (this.movement && !this.cooldownActive) {  // Check if movement is allowed and cooldown is not active
-        const moveSpeed = 2;
-        this.x += this.facingLeft ? -moveSpeed : moveSpeed;
-    }
-}
+    //variables for dash cooldown
+    dashTimer;
+    cooldownTimer;
 
     // Player updates
     update() {
@@ -140,12 +117,13 @@ dashFunction = () => {
         if (this.isGravityAnimation("w")) {
             if (this.movement.down) this.y -= (this.bottom * .33);  // jump 33% higher than bottom
         } 
-        if (this.isAnimation("s") && !this.cooldownActive) {
+        if (this.isAnimation("s")) {
             //this.dashFunction();
-            if (this.movement && !this.cooldownActive) {  // Check if movement is allowed and cooldown is not active
-                const moveSpeed = 2;
-                this.x += this.facingLeft ? -moveSpeed: moveSpeed;
-                this.canvas.style.filter = 'invert(1)';
+            if (this.movement) {  // Check if movement is allowed
+                if(this.dashTimer){
+                    const moveSpeed = this.speed * 2;
+                    this.x += this.facingLeft ? -moveSpeed : moveSpeed;
+                }
             }
         }
         //Need Help Making This Work
@@ -192,6 +170,21 @@ dashFunction = () => {
                 this.isIdle = false;
             }
         }
+        //dash events
+        if (event.key === "s"){
+            this.canvas.style.filter = 'invert(1)'; //invert mario
+            this.dashTimer = setTimeout(() => {
+                // Stop the player's running functions
+                clearTimeout(this.dashTimer);
+                this.dashTimer = null;
+
+                // Start cooldown timer
+                this.cooldownTimer = setTimeout(() => {
+                    clearTimeout(this.cooldownTimer);
+                    this.cooldownTimer = null;
+                }, 4000);
+            }, 1000);
+        }
     }
 
     // Event listener key up
@@ -204,6 +197,14 @@ dashFunction = () => {
             this.setAnimation(key);  
             // player idle
             this.isIdle = true;     
+        }
+        if (event.key === "s"){
+            this.canvas.style.filter = 'invert(0)'; //revert to default coloring
+            // Clear both timers on key up
+            clearTimeout(this.dashTimer);
+            clearTimeout(this.cooldownTimer);
+            this.dashTimer = null;
+            this.cooldownTimer = null;            
         }
     }
 

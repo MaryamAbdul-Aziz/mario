@@ -70,6 +70,10 @@ image: /images/platformer/backgrounds/hills.png
           d: { row: 2, frames: 7, idleFrame: { column: 7, frames: 0 } },
           sa: { row: 5, frames: 15 },
           sd: { row: 6, frames: 15}
+          /*
+          was: { row: 11, frames: 15 },
+          wsd: { row: 10, frames: 15 },
+          */
 
         },
         monkey: {
