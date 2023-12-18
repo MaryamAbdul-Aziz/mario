@@ -120,7 +120,7 @@ export class Player extends Character{
             //this.dashFunction();
             if (this.movement) {  // Check if movement is allowed
                 if(this.dashTimer){
-                    const moveSpeed = 2;
+                    const moveSpeed = this.speed * 2;
                     this.x += this.facingLeft ? -moveSpeed : moveSpeed;
                 }
             }
@@ -171,7 +171,7 @@ export class Player extends Character{
         }
         //dash events
         if (event.key === "s"){
-            this.canvas.style.filter = 'invert(1)'; //invert maro
+            this.canvas.style.filter = 'invert(1)'; //invert mario
             this.dashTimer = setTimeout(() => {
                 // Stop the player's running functions
                 clearTimeout(this.dashTimer);
