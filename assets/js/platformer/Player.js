@@ -1,5 +1,6 @@
 import GameEnv from './GameEnv.js';
 import Character from './Character.js';
+import GameObject from './GameObject.js';
 
 export class Player extends Character{
     // constructors sets up Character object 
