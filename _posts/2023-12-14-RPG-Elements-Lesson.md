@@ -78,7 +78,16 @@ handleKeyUp(event) {
 <!--
 ### Step 3
 
-The dash function could easily be abused by the mediocre gamer. We need to fix that by forcing it to stop after a certain number of seconds. Add the following to your event listeners
+The dash function could easily be abused by the mediocre gamer. We need to fix that by forcing it to stop after a certain number of seconds. Add these two variables somewhere in the Player class but before the update function.
+
+````js
+    //variables for dash cooldown
+    dashTimer;
+    cooldownTimer;
+````
+### Step 4
+
+Now add the following to your event listeners
 
 ````js
 handleKeyDown(event) {
