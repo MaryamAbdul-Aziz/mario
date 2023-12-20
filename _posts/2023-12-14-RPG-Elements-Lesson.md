@@ -8,12 +8,15 @@ authors: Maryam Abdul-Aziz, Zidane Ahmed, Abi Besufekad, Gavin Ireland
 ---
 
 # RPG Elements
+
 Add different features to your Mario game in order to make it appear more like an RPG (role-playing game).
 
 ## Part 1: Dash function
+
 We are going to tie a function to the 's' key to utilize all four WASD keys by increasing speed on key down.
 
 ### Step 1
+
 First we need to be able to check if the player is facing left or right to ensure that it dashes in the correct direction. Go to `Player.js` and then `update()` and add the following code
 
 ````js
@@ -38,16 +41,15 @@ Next, we are going to add the functionality of s itself.
         if (this.isAnimation("s")) {
             //this.dashFunction();
             if (this.movement) {  // Check if movement is allowed
-                if(this.dashTimer){
-                    const moveSpeed = this.speed * 2;
-                    this.x += this.facingLeft ? -moveSpeed : moveSpeed;
-                }
+                const moveSpeed = this.speed * 2;
+                this.x += this.facingLeft ? -moveSpeed : moveSpeed;
             }
         }
         //previous code
 ````
 
 ### Step 2
+
 The dash function is complete! But it could be cooler. We're going to invert Mario's color when he is dashing. Scroll down to `handleKeyDown(event)` and `handleKeyUp(event)` and add this code.
 
 ````js
@@ -71,9 +73,19 @@ handleKeyUp(event) {
     }
 }
 ````
-
+<!--
 ### Step 3
-The dash function could easily be abused by the mediocre gamer. We need to fix that by forcing it to stop after a certain number of seconds. Add the following to your event listeners
+
+The dash function could easily be abused by the mediocre gamer. We need to fix that by forcing it to stop after a certain number of seconds. Add these two variables somewhere in the Player class but before the update function.
+
+````js
+    //variables for dash cooldown
+    dashTimer;
+    cooldownTimer;
+````
+### Step 4
+
+Now add the following to your event listeners
 
 ````js
 handleKeyDown(event) {
@@ -95,3 +107,17 @@ if (event.key === "s") {
         }
 }
 ````
+
+<!--ADD OTHER PARTS OF LESSON HERE !!!!!!!!!!-->
+
+## Homework
+
+- Implement all features into your code
+- Fix a bug that comes from conflict with Parallax!
+    - When you dash, the background doesn't move. If you then move left, you reach the edge of the background! How would you fix this? Ask Maryam for help if you are stuck.
+- Add another ability to the game
+
+### Challenge
+
+- Add a timeout feature for the dash function! To prevent the player from holding down the dash key, put the dash function on pause for a few seconds, forcing the player to just walk. This could be thought of as a "stamina" feature or just a simple timeout.
+- Add another RPG element (ex: add a 2nd ability tied to some key, create an NPC interaction, add story, etc.)
