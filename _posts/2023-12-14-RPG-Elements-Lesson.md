@@ -39,7 +39,6 @@ Next, we are going to add the functionality of s itself.
         //previous code
 
         if (this.isAnimation("s")) {
-            //this.dashFunction();
             if (this.movement) {  // Check if movement is allowed
                 const moveSpeed = this.speed * 2;
                 this.x += this.facingLeft ? -moveSpeed : moveSpeed;
@@ -73,7 +72,7 @@ handleKeyUp(event) {
     }
 }
 ````
-<!--
+
 ### Step 3
 
 The dash function could easily be abused by the mediocre gamer. We need to fix that by forcing it to stop after a certain number of seconds. Add these two variables somewhere in the Player class but before the update function.
@@ -83,7 +82,29 @@ The dash function could easily be abused by the mediocre gamer. We need to fix t
     dashTimer;
     cooldownTimer;
 ````
+
 ### Step 4
+
+Go back to `update()` and add the following `if` statement under `if(this.movement)`
+
+````js
+if(this.dashTimer)
+````
+
+Your code under the `update()` should look like this now
+
+````js
+if (this.isAnimation("s")) {
+            if (this.movement) {  // Check if movement is allowed
+                if(this.dashTimer){
+                    const moveSpeed = this.speed * 2;
+                    this.x += this.facingLeft ? -moveSpeed : moveSpeed;
+                }
+            }
+        }
+````
+
+### Step 5
 
 Now add the following to your event listeners
 
@@ -119,5 +140,5 @@ if (event.key === "s") {
 
 ### Challenge
 
-- Add a timeout feature for the dash function! To prevent the player from holding down the dash key, put the dash function on pause for a few seconds, forcing the player to just walk. This could be thought of as a "stamina" feature or just a simple timeout.
 - Add another RPG element (ex: add a 2nd ability tied to some key, create an NPC interaction, add story, etc.)
+- Have you noticed the timeout feature is jittery? Try and make it smooth! By implementing a clock for the timeout, we are interfering with the game's own clock. Try your best to fix this. This could also be thought of as a "stamina" feature.
