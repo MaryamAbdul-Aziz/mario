@@ -129,7 +129,7 @@ if (event.key === "s") {
 }
 ````
 
-<!--ADD OTHER PARTS OF LESSON HERE !!!!!!!!!!-->
+<!--ADD OTHER PARTS OF LESSON HERE     !!!!!!!!!!-->
 
 ## Homework
 
