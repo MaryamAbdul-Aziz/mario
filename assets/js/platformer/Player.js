@@ -119,16 +119,12 @@ export class Player extends Character{
         if (this.isAnimation("s")) {
             //this.dashFunction();
             if (this.movement) {  // Check if movement is allowed
-                if(this.dashTimer){
+                //if(this.dashTimer){
                     const moveSpeed = this.speed * 2;
                     this.x += this.facingLeft ? -moveSpeed : moveSpeed;
-                }
+                //}
             }
         }
-        //Need Help Making This Work
-        if (this.isAnimation("q")) {
-            this.timeFunction();
-            }
         
         // Perform super update actions
         super.update();
