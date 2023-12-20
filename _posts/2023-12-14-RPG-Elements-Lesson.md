@@ -41,10 +41,8 @@ Next, we are going to add the functionality of s itself.
         if (this.isAnimation("s")) {
             //this.dashFunction();
             if (this.movement) {  // Check if movement is allowed
-                if(this.dashTimer){
-                    const moveSpeed = this.speed * 2;
-                    this.x += this.facingLeft ? -moveSpeed : moveSpeed;
-                }
+                const moveSpeed = this.speed * 2;
+                this.x += this.facingLeft ? -moveSpeed : moveSpeed;
             }
         }
         //previous code
