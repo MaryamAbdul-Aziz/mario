@@ -172,6 +172,7 @@ export class Player extends Character{
         //dash events
         if (event.key === "s"){
             this.canvas.style.filter = 'invert(1)'; //invert mario
+            /* the timer
             this.dashTimer = setTimeout(() => {
                 // Stop the player's running functions
                 clearTimeout(this.dashTimer);
@@ -183,6 +184,7 @@ export class Player extends Character{
                     this.cooldownTimer = null;
                 }, 4000);
             }, 1000);
+            */
         }
     }
 
@@ -199,11 +201,13 @@ export class Player extends Character{
         }
         if (event.key === "s"){
             this.canvas.style.filter = 'invert(0)'; //revert to default coloring
+            /*
             // Clear both timers on key up
             clearTimeout(this.dashTimer);
             clearTimeout(this.cooldownTimer);
             this.dashTimer = null;
             this.cooldownTimer = null;            
+            */
         }
     }
 
